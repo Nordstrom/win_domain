@@ -19,14 +19,26 @@ module Windows
 
     def join_domain
       domain = new_resource.domain
-      Chef::Log.info "Joining computer to domain: #{domain}"
-      powershell_out('*')
+      username = new_resource.username
+      password = new_resource.password
+      ou = new_resource.ou
+      computername = powershell_out('$env:computername')
+      Chef::Log.info "Joining computer to domain: \"#{domain}\""
+      joincmd = shell_out!("netdom join /d:#{domain} #{computername} /ou:#{ou} /userd:#{domain}\\#{username} /passwordd:#{password}")
+      Chef::Log.info "Join command result: \"#{joincmd.stdout}\""
+      joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
 
     def disjoin_domain
       domain = new_resource.domain
-      Chef::Log.info "Joining computer to domain: #{domain}"
-      powershell_out('*')
+      username = new_resource.username
+      password = new_resource.password
+      ou = new_resource.ou
+      computername = powershell_out('$env:computername')
+      Chef::Log.info "disjoining computer from domain: #{domain}"
+      disjoincmd = shell_out!("netdom remove /d:#{domain} %computername% /ou:#{ou} /userd:#{domain}\\#{username} /passwordd:#{password}")
+      Chef::Log.info "Disjoin command result: \"#{disjoincmd.stdout}\""
+      disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
     end
 
     def standaloneserver
@@ -45,7 +57,7 @@ module Windows
       userdnsdomain = powershell_out("$env:userdnsdomain -match #{domain}")
       Chef::Log.info "Chef detected this server domain role is: \"#{role}\""
       Chef::Log.info "Chef detected this server useruserdnsdomain is: \"#{useruserdnsdomain}\""
-      %w(3).include?(myrole) &&
+      %w(3).include?(myrole) && useruserdnsdomain.include?(useruserdnsdomain)
     end
 
     def domainmembership
