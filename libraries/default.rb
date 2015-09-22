@@ -34,7 +34,6 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       ou = new_resource.ou
-      computername = powershell_out('$env:computername')
       Chef::Log.info "disjoining computer from domain: #{domain}"
       disjoincmd = shell_out!("netdom remove /d:#{domain} %computername% /ou:#{ou} /userd:#{domain}\\#{username} /passwordd:#{password}")
       Chef::Log.info "Disjoin command result: \"#{disjoincmd.stdout}\""
@@ -56,7 +55,7 @@ module Windows
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
       userdnsdomain = powershell_out("$env:userdnsdomain -match #{domain}")
       Chef::Log.info "Chef detected this server domain role is: \"#{role}\""
-      Chef::Log.info "Chef detected this server useruserdnsdomain is: \"#{useruserdnsdomain}\""
+      Chef::Log.info "Chef detected this server useruserdnsdomain is: \"#{userdnsdomain}\""
       %w(3).include?(myrole) && useruserdnsdomain.include?(useruserdnsdomain)
     end
 
