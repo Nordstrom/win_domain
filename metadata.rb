@@ -9,5 +9,5 @@ license          'all_rights'
 description      'Installs/Configures win_domain'
 version          '0.1.0'
 
-# source_url      'https://git.nordstrom.net/projects/PROJECT/repos/REPO'
-# issues_url      'https://jira.nordstrom.net/browse/PROJECT'
+depends 'windows', '~> 1.38'
+depends 'wse_powershell_helper', '~> 0.1'

@@ -31,10 +31,12 @@ provisioner:
 <% end %>
 
 platforms:
-  - name: ubuntu-14.04
-  - name: centos-6.6
+  - name: win2012r2
+    driver:
+      box_url: https://mvnrepo.nordstrom.net/nexus/service/local/repositories/releases/content/com/nordstrom/vagrant/win2012r2-standard/1.0.4/win2012r2-standard-1.0.4.box
+      gui: false
 
 suites:
   - name: default
     run_list:
-      - recipe[win_domain::default]
+      - recipe[testsetup::default]
