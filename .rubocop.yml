@@ -27,5 +27,10 @@ Style/TrailingBlankLines:
     - '**/Rakefile'
 
 Metrics/LineLength:
+  Max: 100
   Exclude:
     - '**/Gemfile'
+    - '**/libraries/default.rb'
+
+Metrics/MethodLength:
+  Max: 20
