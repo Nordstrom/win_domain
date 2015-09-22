@@ -53,10 +53,10 @@ module Windows
       # DomainRole == 3 corresponds to "Member Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      userdnsdomain = powershell_out("$env:userdnsdomain -match #{domain}")
+      getdomain = shell_out!('wmic computersystem get domain /value')
       Chef::Log.info "Chef detected this server domain role is: \"#{role}\""
-      Chef::Log.info "Chef detected this server useruserdnsdomain is: \"#{userdnsdomain}\""
-      %w(3).include?(myrole) && useruserdnsdomain.include?(useruserdnsdomain)
+      Chef::Log.info "Chef detected this server domain is: \"#{getdomain}\""
+      %w(3).include?(myrole) && useruserdnsdomain.include?(getdomain)
     end
 
     def domainmembership
