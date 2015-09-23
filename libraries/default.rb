@@ -10,7 +10,7 @@ module Windows
       Chef::Log.info("Checking for membership status \"#{membership}\" in domain: \"#{domain}\"")
       if membership.eql?('join')
         domainmembership && memberserver_status?
-        Chef::Log.info("Chef detected domain membership: #{domainmembership} and member server status: #{memberserver_status}")
+        Chef::Log.info("Chef detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
       elsif membership.eql?('disjoin')
         standaloneserver?
         Chef::Log.info("Chef detected standalone server status: \"#{standaloneserver}\"")
@@ -22,9 +22,8 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       ou = new_resource.ou
-      computername = powershell_out('$env:computername')
       Chef::Log.info("Joining computer to domain: \"#{domain}\"")
-      joincmd = shell_out!("netdom join /D:#{domain} #{computername} /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}")
+      joincmd = shell_out!("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}")
       Chef::Log.info "Join command result: \"#{joincmd.stdout}\""
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
