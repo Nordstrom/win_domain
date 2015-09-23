@@ -4,16 +4,16 @@ chef_gem 'chef-vault' do
 end
 require 'chef-vault'
 
-user_info = ChefVault::Item.load('<vault_name>', 'user_name')
+user_info = ChefVault::Item.load('WsePasswords', 'WseDfsBuilder')
+username = user_info['username']
 password = user_info['password']
 
-
-win_domain 'your_domain_name' do
-  ou '<OU where computer account will be created>'
-  domain = 'your_domain_name'
-  membership 'join' (default, or 'disjoin')
-  username '<user_name>'
-  password '<password>'
+win_domain 'nordstrom.net' do
+  ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
+  domain = 'nordstrom.net'
+  membership 'join'
+  username username
+  password password
   notifies :request, 'reboot[10]', :immediately
 end
 

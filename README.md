@@ -23,29 +23,29 @@ domain.  In order to do so you must possess the following:
 
 ## Sample Usage: Using Chef Vault
 
-    chef_gem 'chef-vault' do
+    <!-- chef_gem 'chef-vault' do
       version '2.6.1'
       options("--clear-sources --source <insert_your_chef_gem_URL_here>")
     end
     require 'chef-vault'
 
-    user_info = ChefVault::Item.load('<vault_name>', 'user_name')
+    user_info = ChefVault::Item.load('WsePasswords', 'WseDfsBuilder')
+    username = user_info['username']
     password = user_info['password']
 
-
-    win_domain 'your_domain_name' do
-      ou '<OU where computer account will be created>'
-      domain = 'your_domain_name'
-      membership 'join' (default, or 'disjoin')
-      username '<user_name>'
-      password '<password>'
+    win_domain 'nordstrom.net' do
+      ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
+      domain = 'nordstrom.net'
+      membership 'join'
+      username username
+      password password
       notifies :request, 'reboot[10]', :immediately
     end
 
     reboot '10' do
       reason 'Required by the Chef OS domain joining LWRP'
       action :nothing
-    end
+    end -->
 
 ### Unit Tests
 

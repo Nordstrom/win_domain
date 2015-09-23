@@ -23,19 +23,16 @@
 .gitignore
 .gitmodules
 .kitchen.local.yml
-.kitchen/*
+.kitchen/
 .project
 .rspec
-.rubocop.yml
 .sasscache
 .settings
 .svn
 .vagrant
 .watchr
 Berksfile
-Berksfile.lock
 Gemfile
-Gemfile.lock
 Guardfile
 Icon?
 Procfile
@@ -52,5 +49,4 @@ nohup.out
 spec/*
 spec/fixtures/*
 test/*
-tmp/*
 tmtags

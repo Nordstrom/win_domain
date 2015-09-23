@@ -18,7 +18,7 @@ use_inline_resources
 
 action :join do
   if @current_resource.exists
-    Chef::Log.info 'Already joined domain - nothing to do.'
+    Chef::Log.info('Already joined domain - nothing to do.')
   else
     converge_by("Create #{@new_resource}") do
       join_domain
@@ -30,7 +30,7 @@ end
 
 action :disjoin do
   if @current_resource.exists
-    Chef::Log.info 'Already disjoined domain - nothing to do.'
+    Chef::Log.info('Already disjoined domain - nothing to do.')
   else
     converge_by("Create #{@new_resource}") do
       disjoin_domain
@@ -46,5 +46,5 @@ def load_current_resource
   @current_resource.membership(@new_resource.membership)
   @current_resource.username(@new_resource.username)
   @current_resource.password(@new_resource.password)
-  @current_resource.status = status(@current_resource.domain)
+  @current_resource.exists = config_exists(@current_resource.domain)
 end

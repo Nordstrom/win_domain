@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'vendor/**/*'
+    - '**/README.md'
 
 Style/SingleSpaceBeforeFirstArg:
   Exclude:
