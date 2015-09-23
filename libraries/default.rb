@@ -43,7 +43,7 @@ module Windows
       # DomainRole == 2 corresponds to "Standalone Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      getdomain = shell_out!('wmic computersystem get domain /value')
+      getdomain = powershell_out('$env:userdnsdomain')
       Chef::Log.info("Chef detected this server domain role is: #{role}")
       Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain.stdout}\""
       %w(2).include?(role) && !getdomain.stdout.include?(domain)
@@ -53,7 +53,7 @@ module Windows
       # DomainRole == 3 corresponds to "Member Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      getdomain = shell_out!('wmic computersystem get domain /value')
+      getdomain = powershell_out('$env:userdnsdomain')
       Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
       Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
       %w(3).include?(role) && getdomain.stdout.include?(domain)
