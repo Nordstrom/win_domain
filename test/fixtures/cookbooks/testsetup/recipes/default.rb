@@ -4,7 +4,7 @@ chef_gem 'chef-vault' do
 end
 require 'chef-vault'
 
-user_info = ChefVault::Item.load('WsePasswords', 'WseDfsBuilder')
+user_info = ChefVault::Item.load('WsePasswords', 'WsePspBuilder')
 username = user_info['username']
 password = user_info['password']
 
