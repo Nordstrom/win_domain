@@ -9,7 +9,7 @@ module Windows
       membership = new_resource.membership
       Chef::Log.info("Checking for membership status \"#{membership}\" in domain: \"#{domain}\"")
       if membership.eql?('join')
-        domainmembership && memberserver_status?
+        domainmembership && memberserver_status
         Chef::Log.info("Chef detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
       elsif membership.eql?('disjoin')
         standaloneserver?
