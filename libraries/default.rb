@@ -62,8 +62,8 @@ module Windows
     def domainmembership
       domain = new_resource.domain
       Chef::Log.info("Chef is checking for membership in domain: #{domain}")
-      getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
-      getdomain.stderr.empty? && getdomain.stdout.include?(domain)
+      getdomain = powershell_out('$env:userdnsdomain')
+      getdomain.stderr.empty? && getdomain.stdout.chomp.include?(domain)
     end
     # rubocop:enable Metrics/LineLength
   end
