@@ -39,7 +39,7 @@ action :disjoin do
 end
 
 def load_current_resource
-  @current_resource = Chef::Resource::WinDomainjoin.new(@new_resource.name)
+  @current_resource = Chef::Resource::WindowsDomainjoin.new(@new_resource.name)
   @current_resource.ou(@new_resource.ou)
   @current_resource.domain(@new_resource.domain)
   @current_resource.membership(@new_resource.membership)
