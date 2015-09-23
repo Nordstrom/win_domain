@@ -43,9 +43,9 @@ module Windows
       # DomainRole == 2 corresponds to "Standalone Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      getdomain = powershell_out('$env:userdnsdomain')
+      getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
       Chef::Log.info("Chef detected this server domain role is: #{role}")
-      Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain.stdout}\""
+      Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain}\""
       %w(2).include?(role) && !getdomain.stdout.include?(domain)
     end
 
@@ -53,7 +53,7 @@ module Windows
       # DomainRole == 3 corresponds to "Member Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      getdomain = powershell_out('$env:userdnsdomain')
+      getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
       Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
       Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
       %w(3).include?(role) && getdomain.stdout.include?(domain)
@@ -62,7 +62,7 @@ module Windows
     def domainmembership
       domain = new_resource.domain
       Chef::Log.info("Chef is checking for membership in domain: #{domain}")
-      getdomain = shell_out!('wmic computersystem get domain /value')
+      getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
       getdomain.stderr.empty? && getdomain.stdout.include?(domain)
     end
     # rubocop:enable Metrics/LineLength
