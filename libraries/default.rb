@@ -29,7 +29,7 @@ module Windows
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
 
-    def disjoin_domain
+    def leave_domain
       domain = new_resource.domain
       username = new_resource.username
       password = new_resource.password
@@ -57,7 +57,7 @@ module Windows
       getdomain = shell_out!('wmic computersystem get domain /value')
       Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
       Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
-      %w(3).include?(myrole) && getdomain.stdout.include?(getdomain)
+      %w(3).include?(myrole) && getdomain.stdout.include?(domain)
     end
 
     def domainmembership
@@ -65,7 +65,7 @@ module Windows
       Chef::Log.info("Chef is checking for membership in domain: #{domain}")
       getdomain = shell_out!('wmic computersystem get domain /value')
       userdomain = powershell_out('$env:userdomain')
-      getdomain.stderr.empty? && getdomain.stdout.include?(domain)
+      getdomain.stderr.empty? && getdomain.stdout.include?(domain) && userdomain.stdout.include?(domain)
     end
     # rubocop:enable Metrics/LineLength
   end

@@ -1,6 +1,6 @@
 chef_gem 'chef-vault' do
   version '2.6.1'
-  options("--clear-sources --source <insert_your_chef_gem_URL_here>")
+  options('--clear-sources --source <insert_your_chef_gem_URL_here>')
 end
 require 'chef-vault'
 
@@ -10,7 +10,7 @@ password = user_info['password']
 
 win_domain 'nordstrom.net' do
   ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
-  domain = 'nordstrom.net'
+  domain 'nordstrom.net'
   membership 'join'
   username username
   password password

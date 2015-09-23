@@ -12,6 +12,7 @@ Style/FileName:
   Exclude:
     - '**/Gemfile'
     - '**/Berksfile'
+    - '**/README'
 
 Style/RegexpLiteral:
   Exclude:
@@ -28,16 +29,16 @@ Style/TrailingBlankLines:
     - '**/Rakefile'
 
 Metrics/AbcSize:
-  Exclude:
     Max: 100
+    Exclude:
     - '**/libraries/default'
 
 Metrics/LineLength:
   Max: 100
   Exclude:
     - '**/Gemfile'
-    - '**/libraries/default'
-    - '**/resources/default'
+    - '**/libraries/default.rb'
+    - '**/resources/default.rb'
 
 Metrics/MethodLength:
   Max: 20

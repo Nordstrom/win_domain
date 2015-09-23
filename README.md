@@ -35,7 +35,7 @@ domain.  In order to do so you must possess the following:
 
     win_domain 'nordstrom.net' do
       ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
-      domain = 'nordstrom.net'
+      domain 'nordstrom.net'
       membership 'join'
       username username
       password password

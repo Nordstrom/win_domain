@@ -27,13 +27,12 @@ action :join do
   end
 end
 
-
 action :disjoin do
   if @current_resource.exists
     Chef::Log.info('Already disjoined domain - nothing to do.')
   else
     converge_by("Create #{@new_resource}") do
-      disjoin_domain
+      leave_domain
       new_resource.updated_by_last_action true
     end
   end

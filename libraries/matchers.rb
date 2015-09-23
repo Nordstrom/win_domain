@@ -1,7 +1,7 @@
 if defined?(ChefSpec)
-  ChefSpec.define_matcher(:win_dns)
+  ChefSpec.define_matcher(:win_domain)
 
-  def config_win_dns(resource_name)
-    ChefSpec::Matchers::ResourceMatcher.new(:win_dns, :config, resource_name)
+  def config_win_domain(resource_name)
+    ChefSpec::Matchers::ResourceMatcher.new(:win_domain, :config, resource_name)
   end
 end
