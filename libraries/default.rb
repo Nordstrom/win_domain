@@ -12,7 +12,7 @@ module Windows
         domainmembership && memberserver_status
         Chef::Log.info("Chef detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
       elsif membership.eql?('disjoin')
-        standaloneserver?
+        standaloneserver
         Chef::Log.info("Chef detected standalone server status: \"#{standaloneserver}\"")
       end
     end
@@ -42,21 +42,21 @@ module Windows
     def standaloneserver
       # DomainRole == 2 corresponds to "Standalone Server" role
       domain = new_resource.domain
-      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
+      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
       Chef::Log.info("Chef detected this server domain role is: #{role}")
       Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain}\""
-      %w(2).include?(role) && !getdomain.stdout.include?(domain)
+      %w(2).stdout.chomp.include?(role) && !getdomain.stdout.include?(domain)
     end
 
     def memberserver_status
       # DomainRole == 3 corresponds to "Member Server" role
       domain = new_resource.domain
-      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
-      getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
+      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
+      getdomain = powershell_out('$env:userdnsdomain')
       Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
       Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
-      %w(3).include?(role) && getdomain.stdout.include?(domain)
+      %w(3).stdout.chomp.include?(role) && getdomain.stdout.chomp.include?(domain)
     end
 
     def domainmembership
