@@ -9,6 +9,18 @@ domain.  In order to do so you must possess the following:
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 * A means of authorizing the server instance to decrypt the account credentials.
 
+
+## Attributes
+
+* ou: Organization Unit (String).  Location in Active Directory where machine account is placed.
+* domain: Name (string) of the domain to be joined.
+* username (string): Service account username with sufficient permissions to join computers to AD.
+* password (string): Self-explanatory.  Use secure means such as Chef Vault.
+
+## Action
+
+* membership (string): 'join' or 'disjoin'.  Action to be performed.
+
 ## Sample Usage: Using Chef Vault
 
     chef_gem 'chef-vault' do
@@ -34,16 +46,6 @@ domain.  In order to do so you must possess the following:
       reason 'Required by the Chef OS domain joining LWRP'
       action :nothing
     end
-
-## Recipes
-
-### default
-
-The default recipe ...
-
-## Attributes
-
-
 
 ### Unit Tests
 
@@ -87,7 +89,7 @@ http://serverspec.org for detail on how to create tests.
 
 ## Author
 
-Nordstrom, Inc.
+Dave Viebrock, Nordstrom, Inc.
 
 ## License
 
