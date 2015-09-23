@@ -2,46 +2,50 @@
 
 ## Description
 
-...
+This LWRP cookbook joins arbitrary Windows server instances to an Active Directory
+domain.  In order to do so you must possess the following:
+* Account and password with permissions to join computers to Active Directory
+* A secure means of storing/retrieving the account credentials (i.e. use Chef Vault)
+* Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
+* A means of authorizing the server instance to decrypt the account credentials.
 
-## Usage
-
-Add 'recipe[win_domain::default]' to your node's run-list.
-
-## Recipes
-
-### default
-
-The default recipe ...
 
 ## Attributes
 
-The attributes defined by this recipe are organized under the
-`node['win_domain']` namespace.
+* ou: Organization Unit (String).  Location in Active Directory where machine account is placed.
+* domain: Name (string) of the domain to be joined.
+* username (string): Service account username with sufficient permissions to join computers to AD.
+* password (string): Self-explanatory.  Use secure means such as Chef Vault.
 
-Attribute | Description | Type   | Default
-----------|-------------|--------|--------
-...       | ...         | String | ...
+## Action
 
-## Development
+* membership (string): 'join' or 'disjoin'.  Action to be performed.
 
-The first time you check out this cookbook, run
+## Sample Usage: Using Chef Vault
 
-    bundle --binstubs
+    <!-- chef_gem 'chef-vault' do
+      version '2.6.1'
+      options("--clear-sources --source <insert_your_chef_gem_URL_here>")
+    end
+    require 'chef-vault'
 
-to download and install the development tools.
+    user_info = ChefVault::Item.load('WsePasswords', 'WseDfsBuilder')
+    username = user_info['username']
+    password = user_info['password']
 
-## Testing
+    win_domain 'nordstrom.net' do
+      ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
+      domain 'nordstrom.net'
+      membership 'join'
+      username username
+      password password
+      notifies :request, 'reboot[10]', :immediately
+    end
 
-Three forms of cookbook testing are available:
-
-### Style Checks
-
-    bin/rake style
-
-Will run foodcritic (cookbook style) and tailor (ruby style/syntax)
-checks. These tests must pass before the cookbook can progress
-through the CI pipeline.
+    reboot '10' do
+      reason 'Required by the Chef OS domain joining LWRP'
+      action :nothing
+    end -->
 
 ### Unit Tests
 
@@ -85,7 +89,7 @@ http://serverspec.org for detail on how to create tests.
 
 ## Author
 
-Nordstrom, Inc.
+Dave Viebrock, Nordstrom, Inc.
 
 ## License
 

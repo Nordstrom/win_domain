@@ -90,6 +90,10 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  # set the platforms
+  config.platform = 'windows'
+  config.version = '2012R2'
 end
 
 ChefSpec::Coverage.start! if ENV['COVERAGE']

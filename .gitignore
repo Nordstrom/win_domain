@@ -10,3 +10,4 @@
 \#*#
 bin/*
 tmp/*
+test/fixtures/cookbooks/testsetup/recipes/default.rb
