@@ -54,8 +54,8 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
       getdomain = shell_out!('wmic computersystem get domain /value')
-      Chef::Log.info("Chef detected this server domain role is: \"#{role.stdout}\"")
-      Chef::Log.info("Chef detected this server domain is: \"#{getdomain.stdout}\"")
+      Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
+      Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
       %w(3).include?(role) && getdomain.stdout.include?(domain)
     end
 
