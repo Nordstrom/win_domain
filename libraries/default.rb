@@ -24,7 +24,7 @@ module Windows
       ou = new_resource.ou
       computername = powershell_out('$env:computername')
       Chef::Log.info("Joining computer to domain: \"#{domain}\"")
-      joincmd = shell_out!("netdom join /d:#{domain} #{computername} /ou:#{ou} /userd:#{domain}\\#{username} /passwordd:#{password}")
+      joincmd = shell_out!("netdom join /D:#{domain} #{computername} /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}")
       Chef::Log.info "Join command result: \"#{joincmd.stdout}\""
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
@@ -34,13 +34,13 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       ou = new_resource.ou
-      Chef::Log.info("disjoining computer from domain: #{domain}")
-      disjoincmd = shell_out!("netdom remove /d:#{domain} %computername% /ou:#{ou} /userd:#{domain}\\#{username} /passwordd:#{password}")
+      Chef::Log.info("Disjoining computer from domain: #{domain}")
+      disjoincmd = shell_out!("netdom remove /D:#{domain} %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}")
       Chef::Log.info("Disjoin command result: \"#{disjoincmd.stdout}\"")
       disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
     end
 
-    def standaloneserver
+    def standaloneserve
       # DomainRole == 2 corresponds to "Standalone Server" role
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole').stdout.chomp
