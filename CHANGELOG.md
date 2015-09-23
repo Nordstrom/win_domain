@@ -1,6 +1,12 @@
 # Revision History for win_domain
 
-## 0.1.0
+## 1.0.0
+
+* initial release
+
+## 0.9.999 and prio
+
+* dev work and bug fixes.  don't use these for prod systems.
 
 * * initial version
 

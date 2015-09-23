@@ -13,28 +13,9 @@ task test: [:style, :spec]
 desc 'runs all tests'
 task default: :test
 
-# chefspec
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:chefspec)
-
-desc 'Generate ChefSpec coverage report'
-task :coverage do
-  ENV['COVERAGE'] = 'true'
-  Rake::Task[:chefspec].invoke
-end
-task spec: :chefspec
-
-
-# foodcritic
-require 'foodcritic'
-require 'foodcritic/rake_task'
-
-FoodCritic::Rake::LintTask.new(:foodcritic)
-task style: :foodcritic
-
-
 # rubocop
 require 'rubocop/rake_task'
+
 RuboCop::RakeTask.new(:rubocop) do |t|
   t.formatters = ['progress']
   t.options = ['-D']
@@ -55,6 +36,14 @@ end
 task style: :rubocop
 
 
+# foodcritic
+require 'foodcritic'
+require 'foodcritic/rake_task'
+
+FoodCritic::Rake::LintTask.new(:foodcritic)
+task style: :foodcritic
+
+
 # testkitchen
 begin
   require 'kitchen/rake_tasks'
@@ -66,5 +55,17 @@ rescue
   end
 end
 task integration: 'kitchen:all'
+
+
+# chefspec
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:chefspec)
+
+desc 'Generate ChefSpec coverage report'
+task :coverage do
+  ENV['COVERAGE'] = 'true'
+  Rake::Task[:chefspec].invoke
+end
+task spec: :chefspec
 
 

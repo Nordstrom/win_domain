@@ -26,11 +26,17 @@ Style/TrailingBlankLines:
     - '**/Guardfile'
     - '**/Rakefile'
 
+Metrics/AbcSize:
+  Exclude:
+    Max: 100
+    - '**/libraries/default'
+
 Metrics/LineLength:
   Max: 100
   Exclude:
     - '**/Gemfile'
-    - '**/libraries/default.rb'
+    - '**/libraries/default'
+    - '**/resources/default'
 
 Metrics/MethodLength:
   Max: 20
