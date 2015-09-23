@@ -16,23 +16,12 @@ end
 
 use_inline_resources
 
-action :join do
+action :config do
   if @current_resource.exists
     Chef::Log.info('Already joined domain - nothing to do.')
   else
     converge_by("Create #{@new_resource}") do
       join_domain
-      new_resource.updated_by_last_action true
-    end
-  end
-end
-
-action :disjoin do
-  if @current_resource.exists
-    Chef::Log.info('Already disjoined domain - nothing to do.')
-  else
-    converge_by("Create #{@new_resource}") do
-      leave_domain
       new_resource.updated_by_last_action true
     end
   end
