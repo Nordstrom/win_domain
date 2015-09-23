@@ -56,7 +56,7 @@ module Windows
       getdomain = shell_out!('wmic computersystem get domain /value')
       Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
       Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
-      %w(3).include?(myrole) && getdomain.stdout.include?(domain)
+      %w(3).include?(role) && getdomain.stdout.include?(domain)
     end
 
     def domainmembership
