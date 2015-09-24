@@ -44,7 +44,7 @@ module Windows
       domain = new_resource.domain
       role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
-      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout.chomp}\"")
+      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role}\"")
       Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
       role.eql?('2') && !getdomain.eql?(domain)
     end
@@ -54,7 +54,7 @@ module Windows
       domain = new_resource.domain
       role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
-      Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout.chomp}\"")
+      Chef::Log.info("memberserver_status detected this server domain role is: \"#{role}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
       role.eql?('3') && getdomain.eql?(domain)
     end
