@@ -46,7 +46,7 @@ module Windows
       getdomain = node['domain']
       Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
-      role.eql?('2') && !getdomain.include?(domain)
+      role.eql?('2') && !getdomain.eql?(domain)
     end
 
     def memberserver_status
@@ -56,14 +56,14 @@ module Windows
       getdomain = node['domain']
       Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
-      role.eql?('3') && getdomain.include?(domain)
+      role.eql?('3') && getdomain.eql?(domain)
     end
 
     def domainmembership
       domain = new_resource.domain
       Chef::Log.info("Chef is checking for membership in domain: #{domain}")
       getdomain = node['domain']
-      getdomain.stderr.empty? && getdomain.include?(domain)
+      getdomain.eql?(domain)
     end
     # rubocop:enable Metrics/LineLength
   end
