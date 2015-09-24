@@ -42,7 +42,7 @@ module Windows
     def standaloneserver
       # DomainRole == 2 corresponds to "Standalone Server" role
       domain = new_resource.domain
-      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
+      role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
       Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
@@ -52,7 +52,7 @@ module Windows
     def memberserver_status
       # DomainRole == 3 corresponds to "Member Server" role
       domain = new_resource.domain
-      role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
+      role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
       Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
