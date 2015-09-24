@@ -61,7 +61,7 @@ module Windows
 
     def domainmembership
       domain = new_resource.domain
-      Chef::Log.info("Chef is checking for membership in domain: #{domain}")
+      Chef::Log.info("Chef is checking for membership in domain: \"#{domain}\"")
       getdomain = node['domain']
       getdomain.eql?(domain)
     end
