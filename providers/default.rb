@@ -18,10 +18,10 @@ use_inline_resources
 
 action :config do
   if @current_resource.exists
-    Chef::Log.info('Already joined domain - nothing to do.')
+    Chef::Log.info('Domain status already as-requested - nothing to do.')
   else
     converge_by("Create #{@new_resource}") do
-      join_domain
+      config_domain_membership
       new_resource.updated_by_last_action true
     end
   end
