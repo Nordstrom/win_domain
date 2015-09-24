@@ -44,7 +44,7 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
-      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout}\"")
+      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
       %w(2).include?(role) && !getdomain.stdout.include?(domain)
     end
@@ -54,7 +54,7 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
-      Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout}\"")
+      Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
       %w(3).include?(role) && getdomain.include?(domain)
     end
