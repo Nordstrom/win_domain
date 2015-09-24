@@ -7,13 +7,13 @@ module Windows
     def config_exists(domain)
       domain = new_resource.domain
       membership = new_resource.membership
-      Chef::Log.info("Checking for membership status \"#{membership}\" in domain: \"#{domain}\"")
+      Chef::Log.info("Checking config_exists for membership status \"#{membership}\" in domain: \"#{domain}\"")
       if membership.eql?('join')
         domainmembership && memberserver_status
-        Chef::Log.info("Chef detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
+        Chef::Log.info("Chef config_exists detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
       elsif membership.eql?('disjoin')
         standaloneserver
-        Chef::Log.info("Chef detected standalone server status: \"#{standaloneserver}\"")
+        Chef::Log.info("Chef config_exists detected standalone server status: \"#{standaloneserver}\"")
       end
     end
 
@@ -24,7 +24,7 @@ module Windows
       ou = new_resource.ou
       Chef::Log.info("Joining computer to domain: \"#{domain}\"")
       joincmd = shell_out!("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}")
-      Chef::Log.info "Join command result: \"#{joincmd.stdout}\""
+      Chef::Log.info "Join join_domain command result: \"#{joincmd.stdout}\""
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
 
@@ -44,8 +44,8 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
-      Chef::Log.info("Chef detected this server domain role is: \"#{role.stdout}\"")
-      Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain.stdout}\""
+      Chef::Log.info("Chef standaloneserver method detected this server domain role is: \"#{role.stdout}\"")
+      Chef::Log.info "Chef standaloneserver method detected this servers dns domain is: \"#{getdomain.stdout}\""
       %w(2).include?(role) && !getdomain.stdout.include?(domain)
     end
 
@@ -54,8 +54,8 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain')
-      Chef::Log.info("Chef detected this server domain role is: \"#{role.stdout}\"")
-      Chef::Log.info("Chef detected this server domain is: \"#{getdomain.stdout}\"")
+      Chef::Log.info("Chef memberserver_status detected this server domain role is: \"#{role.stdout}\"")
+      Chef::Log.info("Chef memberserver_status detected this server domain is: \"#{getdomain.stdout}\"")
       %w(3).include?(role) && getdomain.stdout.chomp.include?(domain)
     end
 
