@@ -56,7 +56,7 @@ module Windows
       getdomain = node['domain']
       Chef::Log.info("memberserver_status detected this server domain role is: \"#{role}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
-      role.eql?('3') && getdomain.eql?(domain)
+      role == 3 && getdomain.eql?(domain)
     end
 
     def domainmembership
