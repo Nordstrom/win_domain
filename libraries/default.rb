@@ -44,8 +44,8 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain').stdout.chomp
-      Chef::Log.info("Chef detected this server domain role is: #{role}")
-      Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain}\""
+      Chef::Log.info("Chef detected this server domain role is: #{role.stdout}")
+      Chef::Log.info "Chef detected this servers dns domain is: \"#{getdomain.stdout}\""
       %w(2).stdout.chomp.include?(role) && !getdomain.stdout.include?(domain)
     end
 
@@ -54,8 +54,8 @@ module Windows
       domain = new_resource.domain
       role = powershell_out('(Get-WmiObject -Class Win32_ComputerSystem -ComputerName $env:ComputerName).DomainRole')
       getdomain = powershell_out('$env:userdnsdomain')
-      Chef::Log.info("Chef detected this server domain role is: \"#{role}\"")
-      Chef::Log.info("Chef detected this server domain is: \"#{getdomain}\"")
+      Chef::Log.info("Chef detected this server domain role is: \"#{role.stdout}\"")
+      Chef::Log.info("Chef detected this server domain is: \"#{getdomain.stdout}\"")
       %w(3).stdout.chomp.include?(role) && getdomain.stdout.chomp.include?(domain)
     end
 
