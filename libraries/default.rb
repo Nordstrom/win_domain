@@ -9,11 +9,22 @@ module Windows
       membership = new_resource.membership
       Chef::Log.info("Checking config_exists for membership status \"#{membership}\" in domain: \"#{domain}\"")
       if membership.eql?('join')
-        domainmembership && memberserver_status
         Chef::Log.info("Chef config_exists detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
+        domainmembership && memberserver_status
       elsif membership.eql?('disjoin')
-        standaloneserver
         Chef::Log.info("Chef config_exists detected standalone server status: \"#{standaloneserver}\"")
+        standaloneserver
+      end
+    end
+
+    def config_domain_membership
+      membership = new_resource.membership
+      if membership == 'join'
+        join_domain
+      elsif membership == 'disjoin'
+        leave_domain
+      else
+        fail "The win_domain LWRP cannot process the specified membership value: \"#{membership}\""
       end
     end
 
