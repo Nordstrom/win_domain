@@ -46,7 +46,7 @@ module Windows
       getdomain = node['domain']
       Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
-      %w(2).include?(role) && !getdomain.include?(domain)
+      role.eql?('2') && !getdomain.include?(domain)
     end
 
     def memberserver_status
@@ -56,7 +56,7 @@ module Windows
       getdomain = node['domain']
       Chef::Log.info("memberserver_status detected this server domain role is: \"#{role.stdout.chomp}\"")
       Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
-      %w(3).include?(role) && getdomain.include?(domain)
+      role.eql?('3') && getdomain.include?(domain)
     end
 
     def domainmembership
