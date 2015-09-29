@@ -23,6 +23,7 @@ module Windows
         join_domain
       elsif membership == 'disjoin'
         leave_domain
+        delete_computer_account
       else
         fail "The win_domain LWRP cannot process the specified membership value: \"#{membership}\""
       end
@@ -47,6 +48,17 @@ module Windows
       disjoincmd = shell_out!("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}")
       Chef::Log.info("Disjoin command result: \"#{disjoincmd.stdout}\"")
       disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
+    end
+
+    def delete_computer_account
+      domain = new_resource.domain
+      username = new_resource.username
+      password = new_resource.password
+      ou = new_resource.ou
+      Chef::Log.info("Deleting computer account \"#{ENV['computername']}\" from domain: \"#{domain}\"")
+      deletecmd = shell_out!("dsrm -u \"CN=#{ENV['computername']},#{ou}\" -u #{domain}\\#{username} -p #{password} -noprompt")
+      Chef::Log.info("Computer account delete command result: \"#{deletecmd.stdout}\"")
+      deletecmd.stderr.empty? && deletecmd.stdout.include?("dsrm succeeded:CN=#{ENV['computername']},#{ou}")
     end
 
     def standaloneserver
