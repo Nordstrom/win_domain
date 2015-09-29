@@ -34,7 +34,7 @@ module Windows
       password = new_resource.password
       ou = new_resource.ou
       Chef::Log.info("Joining computer to domain: \"#{domain}\"")
-      joincmd = shell_out!("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190])
+      joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190])
       Chef::Log.info "Join join_domain command result: \"#{joincmd.stdout}\""
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
