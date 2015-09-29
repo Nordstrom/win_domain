@@ -23,29 +23,34 @@ domain.  In order to do so you must possess the following:
 
 ## Sample Usage: Using Chef Vault
 
-    <!-- chef_gem 'chef-vault' do
-      version '2.6.1'
-      options("--clear-sources --source <insert_your_chef_gem_URL_here>")
-    end
-    require 'chef-vault'
+<!-- include_recipe 'windows::reboot_handler'
 
-    user_info = ChefVault::Item.load('WsePasswords', 'WseDfsBuilder')
-    username = user_info['username']
-    password = user_info['password']
+nexus = 'https://mvnrepo.nordstrom.net/nexus/content/repositories/thirdparty/com/nordstrom/wse'
+validator_checksum = 'de8079720af94842abf8f9514b3c3ec27965c486cda0d014c1b8a93abc8c5ccd'
 
-    win_domain 'nordstrom.net' do
-      ou 'OU=AWS,OU=General,OU=Servers,DC=nordstrom,DC=net'
-      domain 'nordstrom.net'
-      membership 'join'
-      username username
-      password password
-      notifies :request, 'reboot[10]', :immediately
-    end
+chef_gem 'chef-vault' do
+  version '2.6.1'
+  options("--clear-sources --source #{node['wse_base']['gemserver']}")
+  compile_time true
+end
+require 'chef-vault'
 
-    reboot '10' do
-      reason 'Required by the Chef OS domain joining LWRP'
-      action :nothing
-    end -->
+user_info = ChefVault::Item.load('WsePasswords', 'WsePspBuilder')
+username = user_info['username']
+password = user_info['password']
+
+win_domain 'nordstrom.net' do
+  ou 'OU=General,OU=Servers,DC=nordstrom,DC=net'
+  domain 'nordstrom.net'
+  membership 'join'
+  username username
+  password password
+  notifies :reboot_now, 'reboot[Restart Computer]', :immediately
+end
+
+reboot 'Restart Computer' do
+  action :nothing
+end -->
 
 ### Unit Tests
 

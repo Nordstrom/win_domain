@@ -4,7 +4,7 @@
 
 require 'spec_helper'
 
-describe command(current_resolvers == desired_resolvers) do
+describe command('netdom verify $env:computername') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/^true/) }
+  its(:stdout) { should match(/The command completed successfully/) }
 end
