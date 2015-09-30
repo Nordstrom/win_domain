@@ -36,9 +36,6 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 
 <!-- include_recipe 'windows::reboot_handler'
 
-nexus = 'https://mvnrepo.nordstrom.net/nexus/content/repositories/thirdparty/com/nordstrom/wse'
-validator_checksum = 'de8079720af94842abf8f9514b3c3ec27965c486cda0d014c1b8a93abc8c5ccd'
-
 chef_gem 'chef-vault' do
   version '2.6.1'
   options("--clear-sources --source #{node['wse_base']['gemserver']}")
