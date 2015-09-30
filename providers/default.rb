@@ -35,5 +35,6 @@ def load_current_resource
   @current_resource.username(@new_resource.username)
   @current_resource.password(@new_resource.password)
   @current_resource.reboot_delay(@new_resource.reboot_delay)
+  @current_resource.reason(@new_resource.reason)
   @current_resource.exists = config_exists(@current_resource.domain)
 end

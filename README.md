@@ -21,11 +21,12 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 
 ## Attributes
 
-* ou: Organization Unit (String).  Location in Active Directory where machine account is placed.
-* domain: Name (string) of the domain to be joined.
-* username (string): Service account username with sufficient permissions to join computers to AD.
-* password (string): Self-explanatory.  Use secure means such as Chef Vault.
-* reboot_delay: Number of seconds to delay reboot if membership change is detected.  Default is 30.
+* ou: Organization Unit (String).  Location in Active Directory where machine account is placed
+* domain: Name (string) of the domain to be joined
+* username (string): Service account username with sufficient permissions to join computers to AD
+* password (string): Self-explanatory.  Use secure means such as Chef Vault
+* reboot_delay: Number of seconds to delay reboot if membership change is detected.  Default is 30
+* reason (string): Required text to log why the host was rebooted. Default is 'because win_domain said so...'
 
 ## Action
 

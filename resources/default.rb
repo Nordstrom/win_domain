@@ -9,5 +9,6 @@ attribute :membership, kind_of: String, required: true, default: 'join', equal_t
 attribute :username, kind_of: String, required: true
 attribute :password, kind_of: String, required: true
 attribute :reboot_delay, kind_of: Integer, required: true, default: 30
+attribute :reason, kind_of: String, required: true, default: 'win_domain LWRP said to, so I listened and obeyed... :-)'
 
 attr_accessor :exists
