@@ -56,7 +56,7 @@ module Windows
       password = new_resource.password
       ou = new_resource.ou
       Chef::Log.info("Deleting computer account \"#{ENV['computername']}\" from domain: \"#{domain}\"")
-      deletecmd = shell_out!("dsrm -u \"CN=#{ENV['computername']},#{ou}\" -u #{domain}\\#{username} -p #{password} -noprompt")
+      deletecmd = shell_out!("dsrm \"CN=#{ENV['computername']},#{ou}\" -u #{domain}\\#{username} -p #{password} -noprompt")
       Chef::Log.info("Computer account delete command result: \"#{deletecmd.stdout}\"")
       deletecmd.stderr.empty? && deletecmd.stdout.include?("dsrm succeeded:CN=#{ENV['computername']},#{ou}")
     end
