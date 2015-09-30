@@ -45,7 +45,7 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       Chef::Log.info("Disjoining computer from domain: #{domain}")
-      disjoincmd = shell_out!("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}")
+      disjoincmd = shell_out!("netdom remove /Force /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}")
       Chef::Log.info("Disjoin command result: \"#{disjoincmd.stdout}\"")
       disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
     end
