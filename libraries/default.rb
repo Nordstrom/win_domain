@@ -37,7 +37,7 @@ module Windows
       delay = new_resource.reboot_delay
       reason = new_resource.reason
       Chef::Log.info("win_domain LWRP is spawing a #{delay} second delayed reboot...")
-      shell_out!("shutdown /r /t #{delay} /c \"#{reason}\" /d P:0:0 }")
+      shell_out!("shutdown /r /t #{delay} /c \"#{reason}\" /d \"P:0:0\" }")
     end
 
     def kill_chef_run
