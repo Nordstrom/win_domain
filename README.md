@@ -10,8 +10,9 @@ domain.  In order to do so you must possess the following:
 * The entry in your chef client.rb file: "node_name ENV['computername']".  This overrides using the FQDN as the node name in Chef
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 
-### Warning
+## Warning
 If this LWRP detects a change in domain membership, it will spawn independent (from the chef run) powershell processes that:
+
 * initiate a reboot, based on supplied delay attribute
 * kill the ruby process (aborting the chef run)
 
