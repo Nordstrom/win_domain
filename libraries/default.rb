@@ -21,12 +21,31 @@ module Windows
       membership = new_resource.membership
       if membership == 'join'
         join_domain
+        spawn_reboot
+        kill_chef_run
       elsif membership == 'disjoin'
         leave_domain
         delete_computer_account
+        spawn_reboot
+        kill_chef_run
       else
         fail "The win_domain LWRP cannot process the specified membership value: \"#{membership}\""
       end
+    end
+
+    def spawn_reboot
+      delay = new_resource.reboot_delay
+      Chef::Log.info("win_domain LWRP is spawing a #{delay} second delayed reboot...")
+      delaycmd = powershell_out("cmd /c start powershell -NoExit { invoke-expression \"shutdown /r /t #{delay} /c \"win_domain LWRP starting a #{delay} second delayed reboot...\" }")
+      Chef::Log.info("delaycmd command result: \"#{delaycmd.stdout}\"")
+      delaycmd.stderr.empty?
+    end
+
+    def kill_chef_run
+      Chef::Log.info("win_domain LWRP is terminating the chef run to force a reboot...")
+      killcmd = powershell_out("cmd /c start powershell -NoExit { invoke-expression \"get-process | ?{$_.ProcessName -like \"ruby\*\"} | stop-process -force\" }")
+      Chef::Log.info("killcmd command result: \"#{killcmd.stdout}\"")
+      delaycmd.stderr.empty?
     end
 
     def join_domain
