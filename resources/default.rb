@@ -8,5 +8,6 @@ attribute :domain, name_attribute: true, kind_of: String, required: true, regex:
 attribute :membership, kind_of: String, required: true, default: 'join', equal_to: %w(join disjoin)
 attribute :username, kind_of: String, required: true
 attribute :password, kind_of: String, required: true
+attribute :reboot_delay, kind_of: Integer, required: true, default: 30
 
 attr_accessor :exists

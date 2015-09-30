@@ -10,6 +10,13 @@ domain.  In order to do so you must possess the following:
 * The entry in your chef client.rb file: "node_name ENV['computername']".  This overrides using the FQDN as the node name in Chef
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 
+### Warning
+If this LWRP detects a change in domain membership, it will spawn independent (from the chef run) powershell processes that:
+* initiate a reboot, based on supplied delay attribute
+* kill the ruby process (aborting the chef run)
+
+Please ensure you have a mechanism in place that restarts the chef client post-reboot, such as an on-boot scheduled task, that causes chef client to restart post-reboot.
+
 
 ## Attributes
 
@@ -17,6 +24,7 @@ domain.  In order to do so you must possess the following:
 * domain: Name (string) of the domain to be joined.
 * username (string): Service account username with sufficient permissions to join computers to AD.
 * password (string): Self-explanatory.  Use secure means such as Chef Vault.
+* reboot_delay: Number of seconds to delay reboot if membership change is detected.  Default is 30.
 
 ## Action
 
