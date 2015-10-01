@@ -2,7 +2,7 @@
 
 ## Description
 
-This LWRP cookbook joins arbitrary Windows server instances to an Active Directory
+This LWRP cookbook is to provide a tool for full-stack app teams to join arbitrary Windows server instances to an Active Directory
 domain.  In order to do so you must possess the following:
 
 * A service account and password with which you can authenticate to Active Directory
