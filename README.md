@@ -4,10 +4,10 @@
 
 This LWRP cookbook joins arbitrary Windows server instances to an Active Directory
 domain.  In order to do so you must possess the following:
-* Account and password with permissions to join computers to Active Directory
-* A dedicated Active Directory OU where your account has permissions to manage computer accounts.
+* A service account and password with which you can authenticate to Active Directory
+* A dedicated Active Directory OU where your service account has permissions to manage computer accounts.
 * A secure means of storing/retrieving/managing the account credentials (i.e. use Chef Vault)
-* The entry in your chef client.rb file: "node_name ENV['computername']".  This overrides using the FQDN as the node name in Chef
+* This entry in your chef client.rb file: "node_name ENV['computername']", which must be present when the server is registered in Chef.  This overrides using the FQDN as the node name in Chef, and replaces with just the hostname.
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 
 ## Warning
