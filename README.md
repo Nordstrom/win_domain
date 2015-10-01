@@ -3,7 +3,7 @@
 ## Description
 
 This LWRP cookbook is to provide a tool for full-stack app teams to join arbitrary Windows server instances to an Active Directory
-domain.  It does *not* enforce any hostname standard.  In order to do so you must possess the following:
+domain.  It does *not* enforce any hostname standard.  In order to do use this cookbook, you must possess the following:
 
 * A service account and password with which you can authenticate to Active Directory
 * A dedicated Active Directory OU where your service account has permissions to manage computer accounts.
