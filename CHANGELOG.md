@@ -1,5 +1,9 @@
 # Revision History for win_domain
 
+## 1.0.1
+
+* version bump, updated readme
+
 ## 1.0.0
 
 * initial release
