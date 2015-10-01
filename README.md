@@ -32,8 +32,7 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 
 * membership (string): 'join' or 'disjoin'.  Action to be performed.
 
-## Sample Usage: Using Chef Vault.
-### Update user credentials appropriately.
+## Sample Usage: Using Chef Vault.  Update user credentials appropriately.
 
     chef_gem 'chef-vault' do
       version '2.6.1'
