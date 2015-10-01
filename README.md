@@ -35,26 +35,26 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 ## Sample Usage: Using Chef Vault.
 ### Update user credentials appropriately.
 
-<!-- chef_gem 'chef-vault' do
-  version '2.6.1'
-  options("--clear-sources --source #{node['wse_base']['gemserver']}")
-  compile_time true
-end
-require 'chef-vault'
+    chef_gem 'chef-vault' do
+      version '2.6.1'
+      options("--clear-sources --source #{node['wse_base']['gemserver']}")
+      compile_time true
+    end
+    require 'chef-vault'
 
-user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
-username = user_info['username']
-password = user_info['password']
+    user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
+    username = user_info['username']
+    password = user_info['password']
 
-win_domain 'nordstrom.net' do
-  ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
-  domain 'nordstrom.net'
-  membership 'join'
-  username username
-  password password
-  reboot_delay 10
-  reason 'because win_domain LWRP said so....'
-end -->
+    win_domain 'nordstrom.net' do
+      ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
+      domain 'nordstrom.net'
+      membership 'join'
+      username username
+      password password
+      reboot_delay 10
+      reason 'because win_domain LWRP said so....'
+    end
 
 ### Unit Tests
 
