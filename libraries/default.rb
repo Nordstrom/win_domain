@@ -51,8 +51,13 @@ module Windows
       password = new_resource.password
       ou = new_resource.ou
       Chef::Log.info("Joining computer to domain: \"#{domain}\"")
-      joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190])
+      joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
       Chef::Log.debug "Join join_domain command result: \"#{joincmd.stdout}\""
+      # back off and retry if busy
+      if joincmd.stdout.include?('Multiple connections to a server or shared resource by the same user')
+        sleep 10
+        joincmd
+      end
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
 
@@ -61,9 +66,9 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       Chef::Log.info("Disjoining computer from domain: #{domain}")
-      disjoincmd = shell_out!("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}")
+      disjoincmd = shell_out("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
       Chef::Log.debug("Disjoin command result: \"#{disjoincmd.stdout}\"")
-      disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
+      disjoincmd.stderr.empty? && (disjoincmd.stdout.include?('The command completed successfully') || disjoincmd.stdout.include?('This machine is not currently joined to a domain'))
     end
 
     def delete_computer_account
