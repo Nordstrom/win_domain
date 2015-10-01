@@ -79,12 +79,9 @@ module Windows
 
     def standaloneserver
       # DomainRole == 2 corresponds to "Standalone Server" role
-      domain = new_resource.domain
       role = node['kernel']['cs_info']['domain_role']
-      getdomain = node['domain']
-      Chef::Log.debug("standaloneserver method detected this server domain role is: \"#{role}\"")
-      Chef::Log.debug("standaloneserver method detected this servers dns domain is: \"#{getdomain}\"")
-      (role == 2) && !getdomain.eql?(domain)
+      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role}\"")
+      (role == 2)
     end
 
     def memberserver_status

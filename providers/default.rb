@@ -6,7 +6,6 @@
 
 include Chef::Mixin::ShellOut
 include Chef::Mixin::PowershellOut
-include Windows::Helper
 include Windows::Domainjoin
 
 # Support whyrun
