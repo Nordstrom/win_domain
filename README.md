@@ -4,10 +4,10 @@
 
 This LWRP cookbook joins arbitrary Windows server instances to an Active Directory
 domain.  In order to do so you must possess the following:
-* Account and password with permissions to join computers to Active Directory
-* A dedicated Active Directory OU where your account has permissions to manage computer accounts.
+* A service account and password with which you can authenticate to Active Directory
+* A dedicated Active Directory OU where your service account has permissions to manage computer accounts.
 * A secure means of storing/retrieving/managing the account credentials (i.e. use Chef Vault)
-* The entry in your chef client.rb file: "node_name ENV['computername']".  This overrides using the FQDN as the node name in Chef
+* This entry in your chef client.rb file: "node_name ENV['computername']", which must be present when the server is registered in Chef.  This overrides using the FQDN as the node name in Chef, and replaces with just the hostname.
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 
 ## Warning
@@ -32,29 +32,28 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 
 * membership (string): 'join' or 'disjoin'.  Action to be performed.
 
-## Sample Usage: Using Chef Vault.
-### Update user credentials appropriately.
+## Sample Usage with Chef Vault.  Update user credentials appropriately.
 
-chef_gem 'chef-vault' do
-  version '2.6.1'
-  options("--clear-sources --source #{node['wse_base']['gemserver']}")
-  compile_time true
-end
-require 'chef-vault'
+    chef_gem 'chef-vault' do
+      version '2.6.1'
+      options("--clear-sources --source #{node['wse_base']['gemserver']}")
+      compile_time true
+    end
+    require 'chef-vault'
 
-user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
-username = user_info['username']
-password = user_info['password']
+    user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
+    username = user_info['username']
+    password = user_info['password']
 
-win_domain 'nordstrom.net' do
-  ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
-  domain 'nordstrom.net'
-  membership 'join'
-  username username
-  password password
-  reboot_delay 10
-  reason 'because win_domain LWRP said so....'
-end
+    win_domain 'nordstrom.net' do
+      ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
+      domain 'nordstrom.net'
+      membership 'join'
+      username username
+      password password
+      reboot_delay 10
+      reason 'because win_domain LWRP said so....'
+    end
 
 ### Unit Tests
 
