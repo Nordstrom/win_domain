@@ -16,5 +16,4 @@ win_domain 'nordstrom.net' do
   username username
   password password
   reboot_delay 10
-  reason 'because win_domain said so....'
 end

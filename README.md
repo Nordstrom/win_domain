@@ -16,8 +16,7 @@ If this LWRP detects a change in domain membership, it will spawn independent (f
 * initiate a reboot, based on supplied delay attribute
 * kill the ruby process (aborting the chef run)
 
-Please ensure you have a mechanism in place that restarts the chef client post-reboot, such as an on-boot scheduled task, that causes chef client to restart post-reboot.
-
+    Please ensure you have a mechanism in place that restarts the chef client post-reboot, such as an on-boot scheduled task.
 
 ## Attributes
 
@@ -26,11 +25,10 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 * username (string): Service account username with sufficient permissions to join computers to AD
 * password (string): Self-explanatory.  Use secure means such as Chef Vault
 * reboot_delay: Number of seconds to delay reboot if membership change is detected.  Default is 30
-* reason (string): Required text to log why the host was rebooted. Default is 'because win_domain said so...'
 
 ## Action
 
-* membership (string): 'join' or 'disjoin'.  Action to be performed.
+* membership (string): 'join' or 'disjoin'.  Self-explanatory.
 
 ## Sample Usage with Chef Vault.  Update user credentials appropriately.
 
@@ -52,7 +50,6 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
       username username
       password password
       reboot_delay 10
-      reason 'because win_domain LWRP said so....'
     end
 
 ### Unit Tests
