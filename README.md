@@ -4,6 +4,7 @@
 
 This LWRP cookbook joins arbitrary Windows server instances to an Active Directory
 domain.  In order to do so you must possess the following:
+
 * A service account and password with which you can authenticate to Active Directory
 * A dedicated Active Directory OU where your service account has permissions to manage computer accounts.
 * A secure means of storing/retrieving/managing the account credentials (i.e. use Chef Vault)
