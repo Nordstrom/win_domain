@@ -11,6 +11,8 @@ domain.  In order to do so you must possess the following:
 * This entry in your chef client.rb file: "node_name ENV['computername']", which must be present when the server is registered in Chef.  This overrides using the FQDN as the node name in Chef, which allows run_list assignment to persist on the node after domain membership is configured.
 * Network connectivity to domain controllers for your domain.  See MSFT documentation for details on required network ports/protocols.
 
+    Please cut a WO request to WSE to have a dedicated service account and Active Directory OU created for your team.
+
 ## Warning
 If this LWRP detects a change in domain membership, it will spawn independent (from the chef run) powershell processes that:
 
