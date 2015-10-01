@@ -7,9 +7,9 @@ module Windows
     def config_exists(domain)
       domain = new_resource.domain
       membership = new_resource.membership
-      Chef::Log.info("Checking config_exists for membership status \"#{membership}\" in domain: \"#{domain}\"")
+      Chef::Log.debug("Checking config_exists for membership status \"#{membership}\" in domain: \"#{domain}\"")
       if membership.eql?('join')
-        Chef::Log.info("Chef config_exists detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
+        Chef::Log.debug("Chef config_exists detected domain membership: \"#{domainmembership}\" and member server status: \"#{memberserver_status}\"")
         domainmembership && memberserver_status
       elsif membership.eql?('disjoin')
         Chef::Log.info("Chef config_exists detected standalone server status: \"#{standaloneserver}\"")
@@ -99,7 +99,7 @@ module Windows
 
     def domainmembership
       domain = new_resource.domain
-      Chef::Log.info("Chef is checking for membership in domain: \"#{domain}\"")
+      Chef::Log.debug("Chef is checking for membership in domain: \"#{domain}\"")
       getdomain = node['domain']
       getdomain.eql?(domain)
     end
