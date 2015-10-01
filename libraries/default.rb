@@ -36,12 +36,12 @@ module Windows
     def spawn_reboot
       delay = new_resource.reboot_delay
       reason = new_resource.reason
-      Chef::Log.info("win_domain LWRP is spawing a #{delay} second delayed reboot...")
+      Chef::Log.debug("win_domain LWRP is spawing a #{delay} second delayed reboot...")
       powershell_out("cmd /c start powershell -NoExit {sleep #{delay}; restart-computer -force}")
     end
 
     def kill_chef_run
-      Chef::Log.info("win_domain LWRP is terminating the chef run to force a reboot...")
+      Chef::Log.debug("win_domain LWRP is terminating the chef run to force a reboot...")
       killcmd = powershell_out("cmd /c start powershell -NoExit { invoke-expression \"get-process | ?{$_.ProcessName -like \"ruby\*\"} | stop-process -force\" }")
       killcmd.stderr.empty?
     end
@@ -51,9 +51,9 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       ou = new_resource.ou
-      Chef::Log.info("Joining computer to domain: \"#{domain}\"")
+      Chef::Log.debug("Joining computer to domain: \"#{domain}\"")
       joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190])
-      Chef::Log.info "Join join_domain command result: \"#{joincmd.stdout}\""
+      Chef::Log.debug "Join join_domain command result: \"#{joincmd.stdout}\""
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
 
@@ -61,9 +61,9 @@ module Windows
       domain = new_resource.domain
       username = new_resource.username
       password = new_resource.password
-      Chef::Log.info("Disjoining computer from domain: #{domain}")
+      Chef::Log.debug("Disjoining computer from domain: #{domain}")
       disjoincmd = shell_out!("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}")
-      Chef::Log.info("Disjoin command result: \"#{disjoincmd.stdout}\"")
+      Chef::Log.debug("Disjoin command result: \"#{disjoincmd.stdout}\"")
       disjoincmd.stderr.empty? && disjoincmd.stdout.include?('The command completed successfully')
     end
 
@@ -72,9 +72,9 @@ module Windows
       username = new_resource.username
       password = new_resource.password
       ou = new_resource.ou
-      Chef::Log.info("Deleting computer account \"#{ENV['computername']}\" from domain: \"#{domain}\"")
+      Chef::Log.debug("Deleting computer account \"#{ENV['computername']}\" from domain: \"#{domain}\"")
       deletecmd = shell_out!("dsrm \"CN=#{ENV['computername']},#{ou}\" -u #{domain}\\#{username} -p #{password} -d #{domain} -noprompt")
-      Chef::Log.info("Computer account delete command result: \"#{deletecmd.stdout}\"")
+      Chef::Log.debug("Computer account delete command result: \"#{deletecmd.stdout}\"")
       deletecmd.stderr.empty? && deletecmd.stdout.include?("dsrm succeeded:CN=#{ENV['computername']},#{ou}")
     end
 
@@ -83,8 +83,8 @@ module Windows
       domain = new_resource.domain
       role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
-      Chef::Log.info("standaloneserver method detected this server domain role is: \"#{role}\"")
-      Chef::Log.info "standaloneserver method detected this servers dns domain is: \"#{getdomain}\""
+      Chef::Log.debug("standaloneserver method detected this server domain role is: \"#{role}\"")
+      Chef::Log.debug("standaloneserver method detected this servers dns domain is: \"#{getdomain}\"")
       (role == 2) && !getdomain.eql?(domain)
     end
 
@@ -93,14 +93,14 @@ module Windows
       domain = new_resource.domain
       role = node['kernel']['cs_info']['domain_role']
       getdomain = node['domain']
-      Chef::Log.info("memberserver_status detected this server domain role is: \"#{role}\"")
-      Chef::Log.info("memberserver_status detected this server domain is: \"#{getdomain}\"")
+      Chef::Log.debug("memberserver_status detected this server domain role is: \"#{role}\"")
+      Chef::Log.debug("memberserver_status detected this server domain is: \"#{getdomain}\"")
       (role == 3) && getdomain.eql?(domain)
     end
 
     def domainmembership
       domain = new_resource.domain
-      Chef::Log.info("Chef is checking for membership in domain: \"#{domain}\"")
+      Chef::Log.debug("Chef is checking for membership in domain: \"#{domain}\"")
       getdomain = node['domain']
       getdomain.eql?(domain)
     end

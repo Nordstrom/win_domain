@@ -32,9 +32,8 @@ Please ensure you have a mechanism in place that restarts the chef client post-r
 
 * membership (string): 'join' or 'disjoin'.  Action to be performed.
 
-## Sample Usage: Using Chef Vault
-
-<!-- include_recipe 'windows::reboot_handler'
+## Sample Usage: Using Chef Vault.
+### Update user credentials appropriately.
 
 chef_gem 'chef-vault' do
   version '2.6.1'
@@ -43,22 +42,19 @@ chef_gem 'chef-vault' do
 end
 require 'chef-vault'
 
-user_info = ChefVault::Item.load('WsePasswords', 'WsePspBuilder')
+user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
 username = user_info['username']
 password = user_info['password']
 
 win_domain 'nordstrom.net' do
-  ou 'OU=General,OU=Servers,DC=nordstrom,DC=net'
+  ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
   domain 'nordstrom.net'
   membership 'join'
   username username
   password password
-  notifies :reboot_now, 'reboot[Restart Computer]', :immediately
+  reboot_delay 10
+  reason 'because win_domain LWRP said so....'
 end
-
-reboot 'Restart Computer' do
-  action :nothing
-end -->
 
 ### Unit Tests
 
