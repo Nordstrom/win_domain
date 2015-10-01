@@ -35,13 +35,12 @@ module Windows
 
     def spawn_reboot
       delay = new_resource.reboot_delay
-      reason = new_resource.reason
       Chef::Log.info("win_domain LWRP is spawing a #{delay} second delayed reboot...")
       powershell_out("cmd /c start powershell -NoExit {sleep #{delay}; restart-computer -force}")
     end
 
     def kill_chef_run
-      Chef::Log.info("win_domain LWRP is terminating the chef run to force a reboot...")
+      Chef::Log.info('win_domain LWRP is terminating the chef run to force a reboot...')
       killcmd = powershell_out("cmd /c start powershell -NoExit { invoke-expression \"get-process | ?{$_.ProcessName -like \"ruby\*\"} | stop-process -force\" }")
       killcmd.stderr.empty?
     end
