@@ -3,10 +3,10 @@
 #
 
 name             'win_domain'
-maintainer       'Nordstrom, Inc.'
-maintainer_email 'your_group_dl@nordstrom.com'
+maintainer       'WSE Team, Nordstrom, Inc.'
+maintainer_email 'itwseall@nordstrom.com'
 license          'all_rights'
-description      'Installs/Configures win_domain'
+description      'Installs/Configures windows server domain membership'
 version          '1.0.0'
 
 depends 'wse_powershell_helper', '~> 0.1'
