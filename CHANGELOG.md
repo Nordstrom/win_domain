@@ -1,5 +1,9 @@
 # Revision History for win_domain
 
+## 1.0.2
+
+* removing default OU value from resources file to prevent confusion
+
 ## 1.0.1
 
 * version bump, updated readme
