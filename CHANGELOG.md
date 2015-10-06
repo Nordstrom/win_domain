@@ -1,4 +1,7 @@
 # Revision History for win_domain
+## 1.1.0
+
+* improving domain join logic to include 'until success' functionality as more reliable
 
 ## 1.0.2
 

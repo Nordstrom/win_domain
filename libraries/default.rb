@@ -54,9 +54,10 @@ module Windows
       joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
       Chef::Log.debug "Join join_domain command result: \"#{joincmd.stdout}\""
       # back off and retry if busy
-      if joincmd.stdout.include?('Multiple connections to a server or shared resource by the same user')
+      until joincmd.stdout.include?('The command completed successfully')
         sleep 10
-        joincmd
+        joincmd = shell_out("netdom join /D:\"#{domain}\" %computername% /ou:\"#{ou}\" /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
+        Chef::Log.info("RETRYING: Join command result: \"#{joincmd.stdout}\"")
       end
       joincmd.stderr.empty? && joincmd.stdout.include?('The command completed successfully')
     end
@@ -68,6 +69,12 @@ module Windows
       Chef::Log.info("Disjoining computer from domain: #{domain}")
       disjoincmd = shell_out("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
       Chef::Log.debug("Disjoin command result: \"#{disjoincmd.stdout}\"")
+      # back off and retry if busy
+      until disjoincmd.stdout.include?('The command completed successfully') || disjoincmd.stdout.include?('This machine is not currently joined to a domain')
+        sleep 10
+        disjoincmd = shell_out("netdom remove /D:#{domain} %computername% /UD:#{domain}\\#{username} /PD:#{password}", returns: [0, 1190, 1219, 2692])
+        Chef::Log.info("RETRYING: Disjoin command result: \"#{disjoincmd.stdout}\"")
+      end
       disjoincmd.stderr.empty? && (disjoincmd.stdout.include?('The command completed successfully') || disjoincmd.stdout.include?('This machine is not currently joined to a domain'))
     end
 
