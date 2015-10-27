@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 name             'win_domain'
 maintainer       'WSE Team, Nordstrom, Inc.'
 license          'Apache v2.0'
