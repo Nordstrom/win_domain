@@ -1,3 +1,0 @@
-group :test do
-  gem 'winrm-transport', '~> 1.0'
-end

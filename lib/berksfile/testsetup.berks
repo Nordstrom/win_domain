@@ -1,3 +1,0 @@
-group :test do
-  cookbook 'testsetup', path: 'test/fixtures/cookbooks/testsetup'
-end
