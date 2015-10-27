@@ -1,21 +1,34 @@
-# chef_gem 'chef-vault' do
-#   version '2.6.1'
-#   options("--clear-sources --source #{node['wse_base']['gemserver']}")
-#   compile_time true
-# end
-# require 'chef-vault'
+# Copyright 2015 Nordstrom, Inc.
 #
-# user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
-# username = user_info['username']
-# password = user_info['password']
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-# this password was immediately reset, but had to be here for spec tests to
-# pass...  :-/
+chef_gem 'chef-vault' do
+  version '2.6.1'
+  options("--clear-sources --source #{node['wse_base']['gemserver']}")
+  compile_time true
+end
+require 'chef-vault'
+
+user_info = ChefVault::Item.load('WsePasswords', 'WseServerBuilder')
+username = user_info['username']
+password = user_info['password']
+
 win_domain 'nordstrom.net' do
   ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
   domain 'nordstrom.net'
   membership 'join'
-  username 'WseServerBuilder'
-  password '27Puk3ofA3uMg98iWxII'
+  username username
+  password password
   reboot_delay 10
 end
