@@ -1,0 +1,13 @@
+*#
+*.un~
+*~
+.#*
+.*.sw[az]
+.bundle/*
+.kitchen.local.yml
+.kitchen/*
+.vagrant
+\#*#
+bin/*
+tmp/*
+test/fixtures/cookbooks/testsetup/recipes/default.rb

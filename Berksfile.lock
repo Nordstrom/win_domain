@@ -1,0 +1,13 @@
+DEPENDENCIES
+  testsetup
+    path: test/fixtures/cookbooks/testsetup
+  win_domain
+    path: .
+    metadata: true
+
+GRAPH
+  testsetup (0.0.0)
+    win_domain (>= 0.0.0)
+  win_domain (1.1.0)
+    wse_powershell_helper (~> 0.1)
+  wse_powershell_helper (0.1.2)
