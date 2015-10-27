@@ -26,11 +26,13 @@
 # username = user_info['username']
 # password = user_info['password']
 #
-# win_domain 'nordstrom.net' do
-#   ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
-#   domain 'nordstrom.net'
-#   membership 'join'
-#   username username
-#   password password
-#   reboot_delay 10
-# end
+# this password was immediately reset, but had to be here for spec tests to
+# pass...  :-/
+win_domain 'nordstrom.net' do
+  ou 'OU=Test,OU=Servers,DC=nordstrom,DC=net'
+  domain 'nordstrom.net'
+  membership 'join'
+  username 'WseServerBuilder'
+  password '27Puk3ofA3uMg98iWxII'
+  reboot_delay 10
+end
