@@ -15,10 +15,11 @@
 #
 
 name             'win_domain'
+maintainer       'EPG WSE Team'
 maintainer       'WSE Team, Nordstrom, Inc.'
 license          'Apache v2.0'
 description      'Installs/Configures windows server domain membership'
-version          '1.1.0'
+version          '1.2.0'
 
 depends 'wse_powershell_helper', '~> 0.1'
 

@@ -1,4 +1,9 @@
 # Revision History for win_domain
+
+## 1.2.0
+
+* adding 'sensitive' attribute to the win_domain resource to prevent possibility of logging passwords
+
 ## 1.1.0
 
 * improving domain join logic to include 'until success' functionality as more reliable

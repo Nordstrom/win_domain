@@ -23,5 +23,5 @@ attribute :membership, kind_of: String, required: true, default: 'join', equal_t
 attribute :username, kind_of: String, required: true
 attribute :password, kind_of: String, required: true
 attribute :reboot_delay, kind_of: Integer, required: true, default: 30
-
+attribute :sensitive, kind_of: [TrueClass, FalseClass], default: true
 attr_accessor :exists
