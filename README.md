@@ -16,6 +16,7 @@ domain.  It does *not* enforce any hostname standard.  In order to use this cook
 ## Warning
 If this LWRP detects a change in domain membership, it will spawn independent (from the chef run) powershell processes that:
 
+* PLEASE BE MINDFUL of the username/password/OU text string values you feed into the resource.  They're a common source of problems.
 * initiate a reboot, based on supplied delay attribute
 * kill the ruby process (aborting the chef run)
 
